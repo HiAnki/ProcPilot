@@ -1,0 +1,16 @@
+# Demo config. Relative paths resolve against this file's directory.
+settings:
+  logDir: ../logs
+  runtimeDir: ../run
+services:
+  ticker:
+    command: ["/bin/sh", "-c", "while true; do date; sleep 1; done"]
+    restart: {policy: always}
+    stopTimeout: 3s
+  crashy:
+    command: ["/bin/sh", "-c", "echo starting; sleep 1; echo boom >&2; exit 42"]
+    restart:
+      policy: on-failure
+      maxAttempts: 3
+      initialDelay: 500ms
+      maxDelay: 4s
